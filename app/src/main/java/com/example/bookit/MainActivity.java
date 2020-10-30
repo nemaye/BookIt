@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-    if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+    if(username.getText().toString().equals("username") || password.getText().toString().equals("admin")){
         Intent intent = new Intent(this, ScrollingActivity.class);
         String name = username.getText().toString();
 //        intent.putExtra("passName",name);
