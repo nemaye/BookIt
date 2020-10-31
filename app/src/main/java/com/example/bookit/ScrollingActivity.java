@@ -37,6 +37,7 @@ public class ScrollingActivity extends AppCompatActivity {
     boolean bool = false;
     boolean flag = false;
     boolean link_bool = false;
+    static int i = 0;
     String str = "";
     String name = "";
     String test = "q";
@@ -49,6 +50,10 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_scrolling);
+
+        Intent intent = getIntent();
+        String s = intent.getExtras().getString("passName");
+        Log.d("sss",s);
 
         new Connection().execute();
     }
@@ -114,7 +119,6 @@ public class ScrollingActivity extends AppCompatActivity {
 //    @SuppressLint("SetTextI18n")
     private void setup(){
 
-
         TableLayout tl = (TableLayout) findViewById(R.id.table);
         tl.setOrientation(LinearLayout.VERTICAL);
 
@@ -126,7 +130,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
 
-        for(int i=0; i<author.size()-1; i++){
+        for(i=0; i<author.size()-1; i++){
             LinearLayout row = new LinearLayout(this);
 //            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
 //            row.setLayoutParams(lp);
@@ -134,8 +138,17 @@ public class ScrollingActivity extends AppCompatActivity {
             TextView book_name = new TextView(this);
             TextView border = new TextView(this);
             border.setText("_________\n");
-            book_name.setText(bookName.get(i)+"\n");
-            author_name.setText(author.get(i)+"\n");
+            book_name.setText(String.format("%s\n", bookName.get(i)));
+            author_name.setText(String.format("%s\n", author.get(i)));
+            author_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ScrollingActivity.this, DownloadActivity.class);
+                    intent.putExtra("hyperL",hLink.get(i));
+                    Log.i("TAG", hLink.get(i));
+                    startActivity(intent);
+                }
+            });
             row.addView(author_name);
             row.addView(book_name);
 //            row.addView(border);

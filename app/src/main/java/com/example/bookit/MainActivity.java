@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     if(username.getText().toString().equals("username") || password.getText().toString().equals("admin")){
         Intent intent = new Intent(this, ScrollingActivity.class);
         String name = username.getText().toString();
-//        intent.putExtra("passName",name);
+        intent.putExtra("passName",name);
         startActivity(intent);
     }
     else{
