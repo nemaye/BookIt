@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -50,11 +51,9 @@ public class ScrollingActivity extends AppCompatActivity {
         setContentView(R.layout.content_scrolling);
 
         new Connection().execute();
-        setup();
-
     }
 
-    public class Connection extends AsyncTask<Void, Void, Void> {
+    public class Connection extends AsyncTask<Void, Void, Void> {           //was needed to remove unable to start activity due to network error... Async runs the code on the main thread in bg
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -105,9 +104,15 @@ public class ScrollingActivity extends AppCompatActivity {
                 }
             return null;
             }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setup();
         }
+    }
 //    @SuppressLint("SetTextI18n")
-    private void setup() {
+    private void setup(){
 
 
         TableLayout tl = (TableLayout) findViewById(R.id.table);
@@ -125,10 +130,13 @@ public class ScrollingActivity extends AppCompatActivity {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             row.setLayoutParams(lp);
-            TextView t1v = new TextView(this);
-            t1v.setText(author.get(i));
-            row.addView(t1v);
-            tl.addView(row,i);
+            TextView author_name = new TextView(this);
+            TextView book_name = new TextView(this);
+            book_name.setText(bookName.get(i));
+            author_name.setText(author.get(i));
+            row.addView(author_name);
+            row.addView(book_name);
+            tl.addView(row);
         }
 
     }
