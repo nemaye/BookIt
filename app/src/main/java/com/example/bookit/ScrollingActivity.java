@@ -59,7 +59,7 @@ public class ScrollingActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
                 try
                 {
-                    Document doc = Jsoup.connect("http://libgen.rs/search.php?req=quran&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def").get();
+                    Document doc = Jsoup.connect("http://libgen.rs/search.php?req=network&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def").get();
                     Elements content = doc.select("a");
 
                     for (Element src:content){
@@ -127,16 +127,20 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
         for(int i=0; i<author.size()-1; i++){
-            TableRow row = new TableRow(this);
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-            row.setLayoutParams(lp);
-            TextView author_name = new TextView(this);
+            LinearLayout row = new LinearLayout(this);
+//            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+//            row.setLayoutParams(lp);
+            Button author_name = new Button(this);
             TextView book_name = new TextView(this);
-            book_name.setText(bookName.get(i));
-            author_name.setText(author.get(i));
+            TextView border = new TextView(this);
+            border.setText("_________\n");
+            book_name.setText(bookName.get(i)+"\n");
+            author_name.setText(author.get(i)+"\n");
             row.addView(author_name);
             row.addView(book_name);
+//            row.addView(border);
             tl.addView(row);
+
         }
 
     }
