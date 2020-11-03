@@ -2,9 +2,16 @@ package com.example.bookit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,15 +20,13 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 
 public class DownloadActivity extends AppCompatActivity {
+    public TextView textView;
 
-    static String link;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
-
-        String link = getIntent().getStringExtra("hyperL");
-        Log.d("link",link);
 
         new Dactivity().execute();
     }
@@ -30,11 +35,24 @@ public class DownloadActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids){
             try {
+                String link = getIntent().getStringExtra("hyperL");
+                Log.d("link",link);
                 Document html = Jsoup.connect(link).get();
                 Element content = html.getElementsByTag("tr").first().getElementsByAttribute("href").first();
-                String s = content.attr("href");
-                Log.d("linkIs",s);
-                Log.d("haha","hahaha");
+
+                final String s = content.attr("href");
+
+                Button download = new Button(DownloadActivity.this);
+                download = (Button) findViewById(R.id.getIt);
+                download.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Log.d("download",s);
+                        Uri uri = Uri.parse(s);
+                        startActivity(new Intent(Intent.ACTION_VIEW,uri));
+                    }
+                });
+
+
             }
             catch (IOException e){
                 e.printStackTrace();

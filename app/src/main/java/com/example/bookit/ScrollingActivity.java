@@ -45,7 +45,7 @@ public class ScrollingActivity extends AppCompatActivity {
     static ArrayList<String> bookName = new ArrayList<String>();
     static ArrayList<String> author = new ArrayList<String>();
     static ArrayList<String> hLink = new ArrayList<String>();
-
+    public Connection task;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,7 @@ public class ScrollingActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
                 try
                 {
-                    Document doc = Jsoup.connect("http://libgen.rs/search.php?req=network&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def").get();
+                    Document doc = Jsoup.connect("http://libgen.rs/search.php?req=social&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def").get();
                     Elements content = doc.select("a");
 
                     for (Element src:content){
@@ -115,6 +115,9 @@ public class ScrollingActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             setup();
         }
+
+        public void cancel() {
+        }
     }
 //    @SuppressLint("SetTextI18n")
     private void setup(){
@@ -140,6 +143,10 @@ public class ScrollingActivity extends AppCompatActivity {
             border.setText("_________\n");
             book_name.setText(String.format("%s\n", bookName.get(i)));
             author_name.setText(String.format("%s\n", author.get(i)));
+            row.addView(author_name);
+            row.addView(book_name);
+//            row.addView(border);
+            tl.addView(row);
             author_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,10 +156,6 @@ public class ScrollingActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            row.addView(author_name);
-            row.addView(book_name);
-//            row.addView(border);
-            tl.addView(row);
 
         }
 
