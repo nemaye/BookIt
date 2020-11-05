@@ -42,6 +42,9 @@ public class ScrollingActivity extends AppCompatActivity {
     String name = "";
     String test = "q";
     String linkName_bool = "";
+    String url;
+    String data;
+    String passText;
     static ArrayList<String> bookName = new ArrayList<String>();
     static ArrayList<String> author = new ArrayList<String>();
     static ArrayList<String> hLink = new ArrayList<String>();
@@ -52,9 +55,10 @@ public class ScrollingActivity extends AppCompatActivity {
         setContentView(R.layout.content_scrolling);
 
         Intent intent = getIntent();
-        String s = intent.getExtras().getString("passName");
-        Log.d("sss",s);
-
+        data = intent.getExtras().getString("data");
+        passText = intent.getExtras().getString("text");
+        data = data.replace(" ","+");
+        passText = passText.replace(" ","+");
         new Connection().execute();
     }
 
@@ -64,7 +68,15 @@ public class ScrollingActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
                 try
                 {
-                    Document doc = Jsoup.connect("http://libgen.rs/search.php?req=social&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=def").get();
+                    if(data.equals("Title")){
+                        url = "http://libgen.rs/search.php?req="+passText+"&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=" + "Title";
+                    }
+                    else {
+                        url = "http://libgen.rs/search.php?req="+passText+"&lg_topic=libgen&open=0&view=simple&res=25&phrase=1&column=" + "Author";
+                    }
+
+                    Log.d("url",url);
+                    Document doc = Jsoup.connect(url).get();
                     Elements content = doc.select("a");
 
                     for (Element src:content){

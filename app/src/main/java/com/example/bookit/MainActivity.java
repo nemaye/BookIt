@@ -3,17 +3,23 @@ package com.example.bookit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private EditText username;
-    private EditText password;
-    private Button login;
+public class MainActivity extends AppCompatActivity {
+    private RadioGroup rGroup;
+    private Button search;
+    private EditText text;
+    private static String select;
+    private String name;
+    private RadioButton radioButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,27 +27,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setup();
 
-        login.setOnClickListener(this);
+        rGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                radioButton = (RadioButton) group.findViewById(checkedId);
+            }
+        });
 
-    }
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedId = rGroup.getCheckedRadioButtonId();
+                if (selectedId == -1) {
+                    Toast.makeText(MainActivity.this,
+                            "No answer has been selected",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+                else{
+                    name = (String) radioButton.getText();
 
-    @Override
-    public void onClick(View view) {
-    if(username.getText().toString().equals("username") || password.getText().toString().equals("admin")){
-        Intent intent = new Intent(this, ScrollingActivity.class);
-        String name = username.getText().toString();
-        intent.putExtra("passName",name);
-        startActivity(intent);
-    }
-    else{
-        Toast.makeText(this,"Wrong password or username", Toast.LENGTH_SHORT).show();
-    }
+//                    Log.d("ID", String.valueOf(text.getText()));
+
+                    Intent intent = new Intent(MainActivity.this,ScrollingActivity.class);
+                    intent.putExtra("data", name);
+                    intent.putExtra("text", String.valueOf(text.getText()));
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
 
     public void setup(){
-        username = (EditText) findViewById(R.id.id);
-        password = (EditText) findViewById(R.id.pass);
-        login = (Button) findViewById(R.id.log);
+        rGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        text = (EditText) findViewById(R.id.string);
+        search = (Button) findViewById(R.id.search);
     }
 }
