@@ -39,10 +39,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int selectedId = rGroup.getCheckedRadioButtonId();
                 if (selectedId == -1) {
-                    Toast.makeText(MainActivity.this,
-                            "No answer has been selected",
-                            Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(MainActivity.this, "ERROR: select something", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     name = (String) radioButton.getText();
