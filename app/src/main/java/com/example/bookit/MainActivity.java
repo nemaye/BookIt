@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     name = (String) radioButton.getText();
-
-//                    Log.d("ID", String.valueOf(text.getText()));
-
                     Intent intent = new Intent(MainActivity.this,ScrollingActivity.class);
                     intent.putExtra("data", name);
                     intent.putExtra("text", String.valueOf(text.getText()));
