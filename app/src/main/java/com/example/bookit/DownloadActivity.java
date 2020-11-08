@@ -1,20 +1,25 @@
 package com.example.bookit;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class DownloadActivity extends AppCompatActivity {
-
+    ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +41,12 @@ public class DownloadActivity extends AppCompatActivity {
                 Log.d("link",link);
                 Document html = Jsoup.connect(link).get();
                 Element content = html.getElementsByTag("tr").first().getElementsByAttribute("href").first();
-
+                Element imgURL = html.select("img").first();
+                String img_url = content.absUrl("src");
+                URL url = new URL(img_url);
+                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                img = (ImageView) findViewById(R.id.imageView);
+                img.setImageBitmap(bmp);
                 final String s = content.attr("href");
 
                 Button download = new Button(DownloadActivity.this);
