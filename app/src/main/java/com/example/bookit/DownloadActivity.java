@@ -1,11 +1,16 @@
 package com.example.bookit;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import com.squareup.picasso.Picasso;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.text.style.IconMarginSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,16 +21,20 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+
+import com.bumptech.glide.Glide;
 import java.net.URL;
 
 public class DownloadActivity extends AppCompatActivity {
     ImageView img;
+    String img_url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
 
         new Dactivity().execute();
+
     }
 
     @Override
@@ -34,6 +43,7 @@ public class DownloadActivity extends AppCompatActivity {
     }
 
     public class Dactivity extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected Void doInBackground(Void... voids){
             try {
@@ -42,11 +52,10 @@ public class DownloadActivity extends AppCompatActivity {
                 Document html = Jsoup.connect(link).get();
                 Element content = html.getElementsByTag("tr").first().getElementsByAttribute("href").first();
                 Element imgURL = html.select("img").first();
-                String img_url = content.absUrl("src");
-                URL url = new URL(img_url);
-                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                img = (ImageView) findViewById(R.id.imageView);
-                img.setImageBitmap(bmp);
+                img_url = imgURL.absUrl("src");
+                Log.d("imgURL",img_url);
+
+
                 final String s = content.attr("href");
 
                 Button download = new Button(DownloadActivity.this);
@@ -65,6 +74,13 @@ public class DownloadActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            img = findViewById(R.id.imageView);
+            Glide.with(DownloadActivity.this).load(img_url).override(400,400).into(img);
         }
     }
 }

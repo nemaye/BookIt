@@ -1,13 +1,10 @@
 package com.example.bookit;
+
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.solver.state.State;
 import androidx.constraintlayout.widget.ConstraintSet;
-
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
