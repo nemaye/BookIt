@@ -56,4 +56,5 @@ public class MainActivity extends AppCompatActivity {
         text = (EditText) findViewById(R.id.string);
         search = (Button) findViewById(R.id.search);
     }
+
 }

@@ -2,10 +2,12 @@ package com.example.bookit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Login extends AppCompatActivity {
     private EditText username, password;
@@ -21,7 +23,33 @@ public class Login extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                if(username.getText().toString().equals("rohan") &&
+                    password.getText().toString().equals("sharma")
+                ){
+                    Toast.makeText(getApplicationContext(),
+                            "Redirecting...",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(username.getText().toString().equals("yameen") &&
+                        password.getText().toString().equals("abdullah")
+                ){
+                    Toast.makeText(getApplicationContext(),
+                            "Redirecting...",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else if(username.getText().toString().equals("ankit") &&
+                        password.getText().toString().equals("chawla")
+                ){
+                    Toast.makeText(getApplicationContext(),
+                            "Redirecting...",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
